@@ -38,6 +38,10 @@ Prerequisites: Node.js 22.13 or newer (the project uses the built-in `node:sqlit
 
 For local teacher/admin testing, optional `DEMO_TEACHER_PASSWORD` and `DEMO_ADMIN_PASSWORD` values can be set in `.env` before the database is initialized for the first time. These are local-only values; do not commit or share them. A clean database is created automatically in a fresh clone.
 
+## GitHub Pages preview
+
+The `main` branch workflow publishes the static files from `frontend/` to [the UniVerse Pages site](https://pr595404.github.io/universe-smart-campus-ecosystem/). Internal page and asset links are relative so they work beneath the repository URL path. GitHub Pages does not run this project's Node.js/Express server or SQLite database, so sign-in, live records, uploads, and form submissions require the backend and are unavailable on the static Pages preview. Run the app locally for full functionality.
+
 ## Project structure
 
 ```text

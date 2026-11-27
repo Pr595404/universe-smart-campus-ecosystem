@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a1312" />
   <title>Dashboard — UniVerse</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/design-system.css" />
+  <link rel="stylesheet" href="css/design-system.css" />
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -30,10 +30,10 @@
             <p class="text-secondary small mb-0" id="dash-subline">Loading your campus overview…</p>
           </div>
           <div class="d-flex flex-wrap gap-2">
-            <a href="/campus-pulse.html" class="btn-universe btn-sm"><i class="bi bi-plus-lg" aria-hidden="true"></i> New Post</a>
-            <a href="/events.html" class="btn-universe-ghost btn-sm">Browse Events</a>
-            <a href="/studyhub.html" class="btn-universe-ghost btn-sm">StudyHub</a>
-            <a href="/campus-quest.html" class="btn-universe-ghost btn-sm">Campus Quest</a>
+            <a href="campus-pulse.html" class="btn-universe btn-sm"><i class="bi bi-plus-lg" aria-hidden="true"></i> New Post</a>
+            <a href="events.html" class="btn-universe-ghost btn-sm">Browse Events</a>
+            <a href="studyhub.html" class="btn-universe-ghost btn-sm">StudyHub</a>
+            <a href="campus-quest.html" class="btn-universe-ghost btn-sm">Campus Quest</a>
           </div>
         </section>
 
@@ -68,7 +68,7 @@
         <section id="dashboard-achievement-section" class="glass-card p-4 mb-4 dashboard-achievements" hidden>
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
             <div><span class="badge-pill badge-accent mb-2">Milestones</span><h2 class="h5 fw-bold mb-0">Your achievements</h2></div>
-            <a href="/campus-quest.html" class="small text-info text-decoration-none">All achievements <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+            <a href="campus-quest.html" class="small text-info text-decoration-none">All achievements <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           </div>
           <div id="dashboard-achievements" class="row g-3"></div>
         </section>
@@ -88,7 +88,7 @@
             <section class="glass-card p-4">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="h5 fw-bold mb-0">Upcoming Campus Events</h2>
-                <a href="/events.html" class="small text-info text-decoration-none">View all</a>
+                <a href="events.html" class="small text-info text-decoration-none">View all</a>
               </div>
               <div id="dash-events-list" class="row g-3"></div>
             </section>
@@ -97,7 +97,7 @@
             <section class="glass-card p-4">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="h5 fw-bold mb-0">Campus Pulse Highlights</h2>
-                <a href="/campus-pulse.html" class="small text-info text-decoration-none">Open Feed</a>
+                <a href="campus-pulse.html" class="small text-info text-decoration-none">Open Feed</a>
               </div>
               <div id="dash-pulse-list" class="d-flex flex-column gap-3"></div>
             </section>
@@ -126,7 +126,7 @@
             <section class="glass-card p-4">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="h5 fw-bold mb-0">Recent StudyHub</h2>
-                <a href="/studyhub.html" class="small text-info text-decoration-none">Library</a>
+                <a href="studyhub.html" class="small text-info text-decoration-none">Library</a>
               </div>
               <div id="dash-resources-list" class="d-flex flex-column gap-2"></div>
             </section>
@@ -137,10 +137,10 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/api.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="/js/interactions.js"></script>
-  <script src="/js/smart-buddy.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/interactions.js"></script>
+  <script src="js/smart-buddy.js"></script>
   <script>
     function getGreeting() {
       const h = new Date().getHours();
@@ -266,7 +266,7 @@
 
       document.getElementById('dash-resources-list').innerHTML = data.recentResources.length
         ? data.recentResources.map((r) => `
-          <a href="/studyhub.html" class="p-2 rounded-3 text-decoration-none text-reset d-block" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+          <a href="studyhub.html" class="p-2 rounded-3 text-decoration-none text-reset d-block" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
             <div class="fw-semibold small text-truncate">${UniVerseAPI.escapeHtml(r.title)}</div>
             <div class="text-secondary" style="font-size:0.74rem;">${UniVerseAPI.escapeHtml(r.subject)} · ${UniVerseAPI.escapeHtml(r.semester)}</div>
           </a>`).join('')

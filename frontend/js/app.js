@@ -4,16 +4,16 @@
  */
 const UniVerseApp = (() => {
   const NAV_ITEMS = [
-    { href: '/dashboard.html', label: 'Dashboard', icon: 'bi-grid-1x2-fill' },
-    { href: '/campus-pulse.html', label: 'Campus Pulse', icon: 'bi-broadcast' },
-    { href: '/events.html', label: 'Campus Events', icon: 'bi-calendar-event' },
-    { href: '/studyhub.html', label: 'StudyHub', icon: 'bi-book-half' },
-    { href: '/skillsphere.html', label: 'SkillSphere', icon: 'bi-people-fill' },
-    { href: '/campus-quest.html', label: 'Campus Quest', icon: 'bi-trophy-fill' },
-    { href: '/lost-found.html', label: 'Lost & Found', icon: 'bi-search-heart' },
-    { href: '/marketplace.html', label: 'Marketplace', icon: 'bi-bag-check-fill' },
-    { href: '/feedback.html', label: 'Anonymous Voice', icon: 'bi-chat-square-quote-fill' },
-    { href: '/admin.html', label: 'Admin Panel', icon: 'bi-shield-lock-fill', roles: ['admin'] }
+    { href: 'dashboard.html', label: 'Dashboard', icon: 'bi-grid-1x2-fill' },
+    { href: 'campus-pulse.html', label: 'Campus Pulse', icon: 'bi-broadcast' },
+    { href: 'events.html', label: 'Campus Events', icon: 'bi-calendar-event' },
+    { href: 'studyhub.html', label: 'StudyHub', icon: 'bi-book-half' },
+    { href: 'skillsphere.html', label: 'SkillSphere', icon: 'bi-people-fill' },
+    { href: 'campus-quest.html', label: 'Campus Quest', icon: 'bi-trophy-fill' },
+    { href: 'lost-found.html', label: 'Lost & Found', icon: 'bi-search-heart' },
+    { href: 'marketplace.html', label: 'Marketplace', icon: 'bi-bag-check-fill' },
+    { href: 'feedback.html', label: 'Anonymous Voice', icon: 'bi-chat-square-quote-fill' },
+    { href: 'admin.html', label: 'Admin Panel', icon: 'bi-shield-lock-fill', roles: ['admin'] }
   ];
 
   async function initShell(options = {}) {
@@ -22,7 +22,7 @@ const UniVerseApp = (() => {
     const token = UniVerseAPI.getToken();
 
     if (requireAuth && !token) {
-      window.location.href = '/login.html';
+      window.location.href = 'login.html';
       return null;
     }
 
@@ -33,7 +33,7 @@ const UniVerseApp = (() => {
         UniVerseAPI.setSession(token, user);
       } catch {
         if (requireAuth) {
-          window.location.href = '/login.html';
+          window.location.href = 'login.html';
           return null;
         }
       }
@@ -42,7 +42,7 @@ const UniVerseApp = (() => {
     if (allowedRoles && (!user || !allowedRoles.includes(user.role))) {
       UniVerseAPI.showToast('Access restricted to authorized roles.', 'error');
       setTimeout(() => {
-        window.location.href = '/dashboard.html';
+        window.location.href = 'dashboard.html';
       }, 900);
       return null;
     }
@@ -74,7 +74,7 @@ const UniVerseApp = (() => {
 
     sidebar.innerHTML = `
       <div class="d-flex align-items-center justify-content-between p-3 border-bottom" style="border-color: var(--border-subtle) !important; height: var(--topbar-height);">
-        <a href="/index.html" class="d-flex align-items-center gap-2 text-decoration-none text-reset">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-reset">
           <span class="d-inline-flex align-items-center justify-content-center rounded-3" style="width:36px;height:36px;background:linear-gradient(135deg,#376b55,#c9aa71);color:#fff;font-weight:700;">U</span>
           <span class="brand-text fw-bold fs-5 font-display">UniVerse</span>
         </a>
@@ -95,7 +95,7 @@ const UniVerseApp = (() => {
                    <div class="text-secondary" style="font-size:0.75rem;">${UniVerseAPI.escapeHtml(user.role.toUpperCase())} · <span class="tabular-nums">${user.xp} XP</span></div>
                  </div>
                </div>`
-            : `<a href="/login.html" class="btn-universe w-100 btn-sm">Sign In</a>`
+            : `<a href="login.html" class="btn-universe w-100 btn-sm">Sign In</a>`
         }
       </div>
     `;
@@ -141,7 +141,7 @@ const UniVerseApp = (() => {
                  <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
                  <span class="d-none d-md-inline">Logout</span>
                </button>`
-            : `<a href="/login.html" class="btn btn-sm btn-universe">Sign In</a>`
+            : `<a href="login.html" class="btn btn-sm btn-universe">Sign In</a>`
         }
       </div>
     `;
@@ -161,7 +161,7 @@ const UniVerseApp = (() => {
       UniVerseAPI.clearSession();
       UniVerseAPI.showToast('Signed out successfully.', 'info');
       setTimeout(() => {
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
       }, 450);
     });
 

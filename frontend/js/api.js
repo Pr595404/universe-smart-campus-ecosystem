@@ -40,6 +40,10 @@ const UniVerseAPI = (() => {
   }
 
   async function request(endpoint, options = {}) {
+    const apiBase = String(window.UNIVERSE_API_BASE || '').replace(/\/+$/, '');
+    if (window.location.hostname.endsWith('.github.io') && !apiBase) {
+      throw new Error('GitHub Pages hosts the static UniVerse frontend only. Sign-in, live data, and forms need the Node.js backend.');
+    }
     const headers = new Headers(options.headers || {});
     const token = getToken();
     if (token) {
@@ -49,7 +53,7 @@ const UniVerseAPI = (() => {
       headers.set('Content-Type', 'application/json');
     }
 
-    const response = await fetch(endpoint, { ...options, headers });
+    const response = await fetch(`${apiBase}${endpoint}`, { ...options, headers });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       if (response.status === 401 && !endpoint.includes('/api/auth/login')) {
