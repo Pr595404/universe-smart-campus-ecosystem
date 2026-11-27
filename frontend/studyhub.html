@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a1312" />
+  <title>StudyHub — UniVerse</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="universe-ambient" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="app-sidebar"></aside>
+    <div class="app-main">
+      <header id="app-topbar" class="app-topbar"></header>
+      <main id="main-content" class="app-content">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div>
+            <h1 class="h3 fw-bold mb-1">StudyHub</h1>
+            <p class="text-secondary small mb-0">Semester-organized PDFs, lecture notes, and peer study guides.</p>
+          </div>
+          <button class="btn-universe btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">
+            <i class="bi bi-cloud-arrow-up-fill" aria-hidden="true"></i> Upload Material (+30 XP)
+          </button>
+        </div>
+
+        <div class="glass-card p-3 mb-4 d-flex flex-wrap gap-2 align-items-center">
+          <input id="res-search" type="search" class="form-control form-control-sm" style="max-width:260px;" placeholder="Search notes or subjects…" aria-label="Search study resources" />
+          <select id="res-sem" class="form-select form-select-sm" style="width:auto;" aria-label="Filter by semester">
+            <option value="All">All Semesters</option>
+            <option value="Sem 1">Sem 1</option>
+            <option value="Sem 3">Sem 3</option>
+            <option value="Sem 5">Sem 5</option>
+            <option value="Sem 7">Sem 7</option>
+          </select>
+          <label class="d-flex align-items-center gap-2 small ms-auto mb-0" style="cursor:pointer;">
+            <input type="checkbox" id="res-bookmarked" class="form-check-input mt-0" />
+            <span>Bookmarked Only</span>
+          </label>
+        </div>
+
+        <div id="resources-grid" class="row g-4"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="upload-form" class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 fw-bold" id="uploadModalLabel">Upload Study Material</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column gap-3">
+          <div>
+            <label for="up-title" class="form-label small fw-semibold">Title</label>
+            <input id="up-title" type="text" class="form-control" placeholder="e.g., DBMS Normalization Cheat Sheet…" required />
+          </div>
+          <div class="row g-2">
+            <div class="col-7">
+              <label for="up-subject" class="form-label small fw-semibold">Subject</label>
+              <input id="up-subject" type="text" class="form-control" placeholder="Web Technologies…" required />
+            </div>
+            <div class="col-5">
+              <label for="up-sem" class="form-label small fw-semibold">Semester</label>
+              <select id="up-sem" class="form-select">
+                <option value="Sem 1">Sem 1</option>
+                <option value="Sem 3">Sem 3</option>
+                <option value="Sem 5" selected>Sem 5</option>
+                <option value="Sem 7">Sem 7</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="up-desc" class="form-label small fw-semibold">Description</label>
+            <textarea id="up-desc" class="form-control" rows="2" placeholder="What topics does this cover?…"></textarea>
+          </div>
+          <div>
+            <label for="up-file" class="form-label small fw-semibold">Document (PDF, DOCX, PPTX, TXT, MD · max 10 MB)</label>
+            <input id="up-file" type="file" class="form-control" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.md" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn-universe">Upload to StudyHub</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/interactions.js"></script>
+  <script src="/js/smart-buddy.js"></script>
+  <script>
+    async function loadResources() {
+      const q = document.getElementById('res-search').value.trim();
+      const semester = document.getElementById('res-sem').value;
+      const bookmarked = document.getElementById('res-bookmarked').checked;
+      const params = new URLSearchParams({ q, semester, bookmarked });
+      const { resources } = await UniVerseAPI.request(`/api/campus/resources?${params.toString()}`);
+      const grid = document.getElementById('resources-grid');
+
+      if (!resources.length) {
+        grid.innerHTML = '<div class="col-12"><div class="glass-card p-5 text-center text-secondary">No study materials match your filter.</div></div>';
+        return;
+      }
+
+      grid.innerHTML = resources.map((r) => `
+        <div class="col-md-6 col-xl-4">
+          <article class="glass-card p-4 h-100 d-flex flex-column tilt-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-cyan">${UniVerseAPI.escapeHtml(r.semester)}</span>
+              <button type="button" class="btn btn-sm btn-link p-0 ${r.is_bookmarked ? 'text-warning' : 'text-secondary'} bookmark-btn" data-id="${r.id}" aria-label="Bookmark resource">
+                <i class="bi ${r.is_bookmarked ? 'bi-bookmark-fill' : 'bi-bookmark'}" aria-hidden="true"></i>
+              </button>
+            </div>
+            <h2 class="h6 fw-bold mb-1">${UniVerseAPI.escapeHtml(r.title)}</h2>
+            <div class="small text-info mb-2">${UniVerseAPI.escapeHtml(r.subject)}</div>
+            <p class="small text-secondary flex-grow-1">${UniVerseAPI.escapeHtml(r.description)}</p>
+            <div class="small text-muted mb-3">
+              Uploaded by ${UniVerseAPI.escapeHtml(r.uploader_name)} · ${UniVerseAPI.formatDate(r.created_at)} · <span class="tabular-nums">${r.downloads}</span> downloads
+            </div>
+            <button type="button" class="btn-universe btn-sm w-100 download-btn" data-id="${r.id}">
+              <i class="bi bi-download" aria-hidden="true"></i> Download (${UniVerseAPI.escapeHtml(r.file_name)})
+            </button>
+          </article>
+        </div>`).join('');
+
+      grid.querySelectorAll('.bookmark-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const res = await UniVerseAPI.request(`/api/campus/resources/${btn.dataset.id}/bookmark`, { method: 'POST' });
+          UniVerseAPI.handleRewardToast(res.reward);
+          loadResources();
+        });
+      });
+
+      grid.querySelectorAll('.download-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const res = await UniVerseAPI.request(`/api/campus/resources/${btn.dataset.id}/download`, { method: 'POST' });
+          UniVerseAPI.handleRewardToast(res.reward);
+          const a = document.createElement('a');
+          a.href = res.file_url;
+          a.download = res.file_name;
+          a.click();
+          loadResources();
+        });
+      });
+    }
+
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('title', document.getElementById('up-title').value.trim());
+      formData.append('subject', document.getElementById('up-subject').value.trim());
+      formData.append('semester', document.getElementById('up-sem').value);
+      formData.append('description', document.getElementById('up-desc').value.trim());
+      formData.append('document', document.getElementById('up-file').files[0]);
+
+      try {
+        const res = await UniVerseAPI.request('/api/campus/resources', { method: 'POST', body: formData });
+        bootstrap.Modal.getInstance(document.getElementById('uploadModal')).hide();
+        e.target.reset();
+        UniVerseAPI.showToast('Resource uploaded!', 'success');
+        UniVerseAPI.handleRewardToast(res.reward);
+        loadResources();
+      } catch (err) {
+        UniVerseAPI.showToast(err.message, 'error');
+      }
+    });
+
+    document.getElementById('res-search').addEventListener('input', loadResources);
+    document.getElementById('res-sem').addEventListener('change', loadResources);
+    document.getElementById('res-bookmarked').addEventListener('change', loadResources);
+
+    (async () => {
+      const user = await UniVerseApp.initShell({ requireAuth: true });
+      if (user) loadResources();
+    })();
+  </script>
+</body>
+</html>

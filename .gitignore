@@ -1,0 +1,33 @@
+# Dependencies and generated output
+node_modules/
+build/
+dist/
+coverage/
+.next/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Local databases and uploaded demo content
+database/*.db
+database/*.db-wal
+database/*.db-shm
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs, temporary files, and caches
+*.log
+logs/
+tmp/
+temp/
+.cache/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local editor and assistant files
+.vscode/
+.idea/
+.agents/

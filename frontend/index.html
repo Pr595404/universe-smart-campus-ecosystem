@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a1312" />
+  <title>UniVerse &mdash; Your Campus. Your Community. Your Universe.</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    .preview-tab-btn.active {
+      background: linear-gradient(135deg, rgba(55, 107, 85, 0.3), rgba(164, 199, 169, 0.13));
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body class="campus-landing">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="universe-ambient" aria-hidden="true"></div>
+
+  <!-- Top Navigation -->
+  <header class="sticky-top border-bottom" style="background:var(--bg-glass);backdrop-filter:blur(16px);border-color:var(--border-subtle) !important;">
+    <nav class="container py-3 d-flex align-items-center justify-content-between" aria-label="Primary Navigation">
+      <a href="/index.html" class="landing-brand d-flex align-items-center gap-2 text-decoration-none text-reset">
+        <span class="landing-brand-mark" aria-hidden="true">U</span>
+        <span><span class="fw-bold fs-4 font-display d-block">UniVerse</span><small class="brand-affiliation">MANAV RACHNA | VIDYANTARIKSHA</small></span>
+      </a>
+      <div class="d-none d-lg-flex align-items-center gap-4">
+        <a href="#ecosystem" class="text-secondary text-decoration-none fw-medium">Ecosystem</a>
+        <a href="#features" class="text-secondary text-decoration-none fw-medium">Features</a>
+        <a href="#preview" class="text-secondary text-decoration-none fw-medium">Preview</a>
+        <a href="#community" class="text-secondary text-decoration-none fw-medium">Community</a>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button id="landing-theme-toggle" class="btn btn-sm btn-universe-ghost" aria-label="Toggle color theme">
+          <i class="bi bi-sun-fill" aria-hidden="true"></i>
+        </button>
+        <a href="/login.html" class="btn-universe-ghost btn-sm d-none d-sm-inline-flex">Sign In</a>
+        <a href="/register.html" class="btn-universe btn-sm magnetic-btn">Get Started</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Cinematic entry: Three.js geometry with an illustrated SVG fallback. -->
+    <section id="campus-journey" class="campus-journey" aria-label="Enter the Manav Rachna campus">
+      <div class="journey-stage">
+        <div class="campus-world" aria-hidden="true">
+          <svg class="campus-fallback" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="morning-sky" x2="0" y2="1"><stop stop-color="#a8d6d6"/><stop offset=".72" stop-color="#e4dfc0"/><stop offset="1" stop-color="#b5ca8d"/></linearGradient>
+              <linearGradient id="campus-lawn" x2="0" y2="1"><stop stop-color="#6c9b48"/><stop offset="1" stop-color="#345b35"/></linearGradient>
+              <linearGradient id="campus-wall" x2="0" y2="1"><stop stop-color="#ded4b2"/><stop offset="1" stop-color="#b1a47a"/></linearGradient>
+            </defs>
+            <rect width="1600" height="900" fill="url(#morning-sky)"/>
+            <path d="M0 420 Q250 365 540 415 T1120 395 T1600 425 V900 H0Z" fill="#729354"/>
+            <path d="M0 565 Q450 520 800 560 T1600 535 V900 H0Z" fill="url(#campus-lawn)"/>
+            <path d="M600 900 L750 480 H940 L1100 900Z" fill="#c4bda1" opacity=".88"/>
+            <g class="fallback-building">
+              <path d="M270 365 L420 300 1190 300 1370 365 1370 570 270 570Z" fill="url(#campus-wall)" stroke="#897e62" stroke-width="8"/>
+              <path d="M1010 315 L1215 315 1355 365 1355 550 1010 550Z" fill="#395d62"/>
+              <path d="M1030 330 L1200 330 1200 535 1030 535Z M1220 335 L1335 375 1335 535 1220 535Z" fill="#8bb6b1" opacity=".75"/>
+              <path d="M310 405 H985 M310 470 H985" stroke="#85795d" stroke-width="8"/>
+              <g fill="#3d5350"><path d="M355 385h65v65h-65z M485 385h65v65h-65z M615 385h65v65h-65z M745 385h65v65h-65z M875 385h65v65h-65z"/><path d="M355 480h65v65h-65z M485 480h65v65h-65z M615 480h65v65h-65z M745 480h65v65h-65z M875 480h65v65h-65z"/></g>
+              <path d="M665 485h120v85H665z" fill="#3b473e"/><path d="M718 485h14v85h-14z" fill="#d7c794"/>
+            </g>
+            <g fill="#416d40"><circle cx="170" cy="500" r="105"/><circle cx="1440" cy="500" r="135"/><circle cx="1250" cy="595" r="74"/><circle cx="285" cy="630" r="86"/></g>
+            <g fill="#739858"><circle cx="150" cy="455" r="75"/><circle cx="1390" cy="450" r="100"/><circle cx="1225" cy="560" r="55"/><circle cx="300" cy="595" r="58"/></g>
+            <g class="fallback-gate" stroke="#263c38" stroke-width="13" fill="none"><path d="M480 900V625h42v275 M1080 900V625h42v275"/><path class="fallback-gate-leaf fallback-gate-left" d="M522 640H800V770H522Z" fill="#315044"/><path class="fallback-gate-leaf fallback-gate-right" d="M800 640h280v130H800Z" fill="#315044"/></g>
+            <text x="800" y="614" text-anchor="middle" fill="#f4e8c7" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="8">MANAV RACHNA</text>
+          </svg>
+          <canvas id="hero-3d-canvas"></canvas>
+        </div>
+        <div class="portal-curtains" aria-hidden="true"><span class="portal-curtain portal-curtain-left"></span><span class="portal-curtain portal-curtain-right"></span></div>
+        <div class="portal-wordmark" aria-hidden="true"><span>Uni</span><span>Verse</span></div>
+        <div class="journey-shade" aria-hidden="true"></div>
+        <div class="journey-topline container">
+          <div class="institution-lockup"><span class="lockup-rule"></span><span>MANAV RACHNA<br><small>VIDYANTARIKSHA</small></span></div>
+          <a class="skip-intro" href="#ecosystem">Skip introduction <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="journey-copy container">
+          <div class="journey-chapter is-active" data-chapter="0">
+            <span class="journey-kicker"><span class="live-dot"></span> A new day at Manav Rachna</span>
+            <h1 id="journey-title">Welcome to<br><em>your universe.</em></h1>
+            <p>One campus. Many paths. A community waiting to meet you.</p>
+            <button class="enter-campus" id="enter-campus" type="button"><span>Enter campus</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></button>
+          </div>
+          <div class="journey-chapter" data-chapter="1" aria-hidden="true"><span class="journey-kicker">01 / The entrance</span><h2>A place to<br><em>begin.</em></h2><p>The gates open to everything you can become.</p></div>
+          <div class="journey-chapter" data-chapter="2" aria-hidden="true"><span class="journey-kicker">02 / Campus life</span><h2>Find your<br><em>people.</em></h2><p>Ideas, friendships and possibilities meet along the way.</p></div>
+          <div class="journey-chapter" data-chapter="3" aria-hidden="true"><span class="journey-kicker">03 / The academic wing</span><h2>Step into<br><em>What&#8217;s next.</em></h2><p>Your digital campus begins here.</p></div>
+          <div class="journey-chapter" data-chapter="4" aria-hidden="true"><span class="journey-kicker">04 / The digital campus</span><h2>Your campus.<br><em>Your community. Your universe.</em></h2><p>Explore the spaces that make campus life feel connected.</p><a class="enter-campus enter-platform" href="#ecosystem"><span>Discover UniVerse</span><i class="bi bi-arrow-down" aria-hidden="true"></i></a></div>
+          <span id="journey-announcement" class="visually-hidden" aria-live="polite"></span>
+        </div>
+        <div class="journey-controls container" aria-hidden="true">
+          <div class="journey-meter"><span id="journey-meter-fill"></span></div>
+          <div class="d-flex justify-content-between align-items-center"><span id="journey-caption">Arrive at the campus</span><span class="scroll-cue">SCROLL TO EXPLORE <i class="bi bi-arrow-down" aria-hidden="true"></i></span></div>
+        </div>
+      </div>
+    </section>
+    <!-- Section 2: Campus Universe Ecosystem Diagram -->
+    <section id="ecosystem" class="py-5 reveal-section">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="badge-pill badge-accent mb-2">Interconnected Architecture</span>
+          <h2 class="display-6 fw-bold">One Connected Campus Orbit</h2>
+          <p class="text-secondary mx-auto" style="max-width:60ch;">Every action across UniVerse feeds into a unified student graph—unlocking teammates, resources, and real earned XP.</p>
+        </div>
+        <div class="glass-card p-4 p-md-5 text-center">
+          <svg viewBox="0 0 820 280" class="w-100" style="max-height:280px;" role="img" aria-label="UniVerse interconnected ecosystem diagram">
+            <defs>
+              <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#4e7255" />
+                <stop offset="50%" stop-color="#9eba91" />
+                <stop offset="100%" stop-color="#bda46a" />
+              </linearGradient>
+            </defs>
+            <g stroke="url(#orbitGrad)" stroke-width="2" stroke-dasharray="6 6" fill="none" opacity="0.65">
+              <line x1="410" y1="140" x2="130" y2="65" />
+              <line x1="410" y1="140" x2="130" y2="215" />
+              <line x1="410" y1="140" x2="690" y2="65" />
+              <line x1="410" y1="140" x2="690" y2="215" />
+              <line x1="410" y1="140" x2="410" y2="35" />
+            </g>
+            <g transform="translate(410,140)">
+              <circle r="54" fill="#1b2c24" stroke="#9eba91" stroke-width="2.5" />
+              <text text-anchor="middle" y="-4" fill="#f3f3e9" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="16">UniVerse</text>
+              <text text-anchor="middle" y="16" fill="#c2dec3" font-size="11">Core Engine</text>
+            </g>
+            <g transform="translate(130,65)">
+              <rect x="-85" y="-24" width="170" height="48" rx="14" fill="#1b2c24" stroke="#4e7255" />
+              <text text-anchor="middle" y="5" fill="#f3f3e9" font-size="13" font-weight="600">Students &amp; Faculty</text>
+            </g>
+            <g transform="translate(130,215)">
+              <rect x="-85" y="-24" width="170" height="48" rx="14" fill="#1b2c24" stroke="#bda46a" />
+              <text text-anchor="middle" y="5" fill="#f3f3e9" font-size="13" font-weight="600">Events &amp; Campus Quest</text>
+            </g>
+            <g transform="translate(690,65)">
+              <rect x="-85" y="-24" width="170" height="48" rx="14" fill="#1b2c24" stroke="#9eba91" />
+              <text text-anchor="middle" y="5" fill="#f3f3e9" font-size="13" font-weight="600">StudyHub &amp; Smart Buddy</text>
+            </g>
+            <g transform="translate(690,215)">
+              <rect x="-85" y="-24" width="170" height="48" rx="14" fill="#1b2c24" stroke="#69a478" />
+              <text text-anchor="middle" y="5" fill="#f3f3e9" font-size="13" font-weight="600">SkillSphere &amp; Projects</text>
+            </g>
+            <g transform="translate(410,35)">
+              <rect x="-90" y="-20" width="180" height="40" rx="12" fill="#1b2c24" stroke="#c9aa71" />
+              <text text-anchor="middle" y="5" fill="#f3f3e9" font-size="12" font-weight="600">Lost &amp; Found · Voice · Market</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Asymmetric Feature Showcase -->
+    <section id="features" class="py-5 reveal-section">
+      <div class="container py-4">
+        <div class="mb-5">
+          <span class="badge-pill badge-cyan mb-2">Featured Campus Modules</span>
+          <h2 class="display-6 fw-bold">Built for Every Corner of Campus Life</h2>
+        </div>
+
+        <div class="feature-deck-wrap">
+          <div class="feature-deck" id="feature-deck" tabindex="0" aria-label="Campus modules. Use left and right arrow keys to browse, or swipe on touch screens.">
+            <article class="glass-card p-4 tilt-card spotlight-card feature-card is-current" data-feature-card aria-hidden="false">
+              <span class="badge-pill badge-accent mb-3">Social &amp; Events</span>
+              <h3 class="h4 fw-bold">Campus Pulse &amp; Live Events</h3>
+              <p class="text-secondary">Share project updates, filter club announcements, register for hackathons with live countdown timers, and earn verified XP.</p>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <span class="badge-pill badge-cyan">Image Uploads</span>
+                <span class="badge-pill badge-cyan">Live Countdowns</span>
+                <span class="badge-pill badge-cyan">Content Moderation</span>
+              </div>
+              <a class="feature-card-link" href="/campus-pulse.html">Explore Campus Pulse <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </article>
+            <article class="glass-card p-4 tilt-card spotlight-card feature-card" data-feature-card aria-hidden="true" inert>
+              <span class="badge-pill badge-emerald mb-3">Academics</span>
+              <h3 class="h4 fw-bold">StudyHub &amp; Smart Buddy AI</h3>
+              <p class="text-secondary">Semester-organized PDF notes, bookmarks, download tracking, and an AI assistant with real DB context and transparent Demo Mode.</p>
+              <a class="feature-card-link" href="/studyhub.html">Explore StudyHub <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </article>
+            <article class="glass-card p-4 tilt-card spotlight-card feature-card" data-feature-card aria-hidden="true" inert>
+              <i class="bi bi-people-fill fs-3 text-info mb-2 d-inline-block" aria-hidden="true"></i>
+              <h3 class="h5 fw-bold">SkillSphere Matching</h3>
+              <p class="text-secondary small mb-0">Complementary skill-matching algorithm pairs developers, designers, and hardware builders for hackathons.</p>
+              <a class="feature-card-link" href="/skillsphere.html">Explore SkillSphere <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </article>
+            <article class="glass-card p-4 tilt-card spotlight-card feature-card" data-feature-card aria-hidden="true" inert>
+              <i class="bi bi-trophy-fill fs-3 text-warning mb-2 d-inline-block" aria-hidden="true"></i>
+              <h3 class="h5 fw-bold">Campus Quest</h3>
+              <p class="text-secondary small mb-0">Daily &amp; weekly quests, real achievement badges, and a live student leaderboard.</p>
+              <a class="feature-card-link" href="/campus-quest.html">Explore Campus Quest <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </article>
+            <article class="glass-card p-4 tilt-card spotlight-card feature-card" data-feature-card aria-hidden="true" inert>
+              <i class="bi bi-shield-check fs-3 text-success mb-2 d-inline-block" aria-hidden="true"></i>
+              <h3 class="h5 fw-bold">Lost &amp; Found + Marketplace</h3>
+              <p class="text-secondary small mb-0">Recover lost items and trade used textbooks safely using protected student-to-student messaging.</p>
+              <a class="feature-card-link" href="/lost-found.html">Explore Lost &amp; Found <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </article>
+          </div>
+          <div class="feature-deck-controls">
+            <button class="btn btn-universe-ghost" type="button" data-feature-prev aria-label="Previous campus module"><i class="bi bi-arrow-left" aria-hidden="true"></i></button>
+            <span class="feature-deck-count" data-feature-count aria-live="polite">01 / 05</span>
+            <button class="btn btn-universe-ghost" type="button" data-feature-next aria-label="Next campus module"><i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Interactive Product Preview -->
+    <section id="preview" class="py-5 reveal-section">
+      <div class="container py-4">
+        <div class="text-center mb-4">
+          <span class="badge-pill badge-accent mb-2">Interactive Preview</span>
+          <h2 class="display-6 fw-bold">Inside the UniVerse Workspace</h2>
+        </div>
+        <div class="glass-card p-3 p-md-4">
+          <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center">
+            <button type="button" class="btn btn-sm btn-universe-ghost preview-tab-btn active" data-preview-tab="dash">Student Dashboard</button>
+            <button type="button" class="btn btn-sm btn-universe-ghost preview-tab-btn" data-preview-tab="skill">SkillSphere Match</button>
+            <button type="button" class="btn btn-sm btn-universe-ghost preview-tab-btn" data-preview-tab="voice">Anonymous Voice</button>
+          </div>
+
+          <div data-preview-panel="dash" class="row g-3 align-items-center">
+            <div class="col-md-4">
+              <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+                <div class="small text-secondary">Good Evening, Aarav</div>
+                <div class="h5 fw-bold mt-1">420 XP · Rank #2</div>
+                <div class="progress mt-2" style="height:6px;">
+                  <div class="progress-bar bg-info" style="width:72%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+                <div class="fw-semibold mb-1">Upcoming: UniVerse HackNight 2026</div>
+                <div class="small text-secondary">Innovation Hub · Registration Active · Countdown Running Live</div>
+              </div>
+            </div>
+          </div>
+
+          <div data-preview-panel="skill" class="d-none row g-3">
+            <div class="col-md-6">
+              <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+                <div class="d-flex justify-content-between">
+                  <strong>Maya Patel</strong>
+                  <span class="badge-pill badge-emerald">91% Match</span>
+                </div>
+                <div class="small text-secondary mt-1">UI/UX Design · Three.js · CSS Motion</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+                <div class="d-flex justify-content-between">
+                  <strong>Rohan Verma</strong>
+                  <span class="badge-pill badge-cyan">88% Match</span>
+                </div>
+                <div class="small text-secondary mt-1">Python · Embedded IoT · Team Leadership</div>
+              </div>
+            </div>
+          </div>
+
+          <div data-preview-panel="voice" class="d-none">
+            <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+              <span class="badge-pill badge-cyan mb-2">Reviewed · 34 Upvotes · Identity Protected</span>
+              <p class="mb-0 small">“Extend Central Library quiet zone hours until 11 PM during mid-semester exam weeks.”</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 & 6: Live Database Stats & Demo Testimonials -->
+    <section id="community" class="py-5 reveal-section">
+      <div class="container py-4">
+        <div class="row g-3 mb-5 text-center">
+          <div class="col-6 col-md-3">
+            <div class="glass-card p-4">
+              <div id="stat-students" class="display-6 fw-bold tabular-nums text-info">0</div>
+              <div class="small text-secondary">Registered Students</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="glass-card p-4">
+              <div id="stat-events" class="display-6 fw-bold tabular-nums">0</div>
+              <div class="small text-secondary">Campus Events</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="glass-card p-4">
+              <div id="stat-resources" class="display-6 fw-bold tabular-nums text-success">0</div>
+              <div class="small text-secondary">StudyHub Materials</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="glass-card p-4">
+              <div id="stat-posts" class="display-6 fw-bold tabular-nums text-warning">0</div>
+              <div class="small text-secondary">Campus Pulse Posts</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h2 class="h4 fw-bold mb-0">Student Voices</h2>
+          <span class="badge-pill badge-demo">Demo Testimonials</span>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="glass-card p-4 h-100">
+              <p class="small text-secondary">“Found two Three.js and IoT teammates for HackNight in under 10 minutes using SkillSphere’s match score.”</p>
+              <div class="fw-semibold small">Aarav Sharma · Sem 5 CSE (Demo)</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="glass-card p-4 h-100">
+              <p class="small text-secondary">“StudyHub keeps all semester PDFs organized in one place instead of buried in endless chat groups.”</p>
+              <div class="fw-semibold small">Maya Patel · Sem 5 IT (Demo)</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="glass-card p-4 h-100">
+              <p class="small text-secondary">“Anonymous Voice lets students share honest campus suggestions while admins track resolution status openly.”</p>
+              <div class="fw-semibold small">Rohan Verma · Sem 7 ECE (Demo)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Final CTA -->
+    <section class="py-5 reveal-section">
+      <div class="container py-4">
+        <div class="glass-card p-5 text-center">
+          <h2 class="display-5 fw-bold mb-3">Your Campus Is Waiting.</h2>
+          <p class="text-secondary mb-4 mx-auto" style="max-width:52ch;">Sign in with a demo Student, Teacher, or Admin account—or register your own profile—and explore every live module locally.</p>
+          <a href="/login.html" class="btn-universe magnetic-btn">Enter UniVerse</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-top py-4 mt-5" style="border-color:var(--border-subtle) !important;">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3 small text-secondary">
+      <div><strong>UniVerse 3.0</strong> — Smart Campus Ecosystem (Localhost Academic Build)</div>
+      <div class="d-flex gap-3">
+        <a href="/login.html" class="text-secondary text-decoration-none">Sign In</a>
+        <a href="/register.html" class="text-secondary text-decoration-none">Register</a>
+        <a href="/campus-quest.html" class="text-secondary text-decoration-none">Campus Quest</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/interactions.js"></script>
+  <script src="/js/smart-buddy.js"></script>
+  <script src="/js/landing-3d.js"></script>
+  <script type="module" src="/js/motion-effects.js"></script>
+</body>
+</html>

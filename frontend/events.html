@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a1312" />
+  <title>Campus Events — UniVerse</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    .banner-aurora { background: linear-gradient(135deg, #312e81, #0891b2); }
+    .banner-cyber { background: linear-gradient(135deg, #1e1b4b, #7c3aed); }
+    .banner-nebula { background: linear-gradient(135deg, #064e3b, #2563eb); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="universe-ambient" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="app-sidebar"></aside>
+    <div class="app-main">
+      <header id="app-topbar" class="app-topbar"></header>
+      <main id="main-content" class="app-content">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div>
+            <h1 class="h3 fw-bold mb-1">Campus Events</h1>
+            <p class="text-secondary small mb-0">Discover hackathons, workshops, and club showcases with live countdowns.</p>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <label for="ev-search" class="visually-hidden">Search events</label>
+            <input id="ev-search" type="search" class="form-control form-control-sm" placeholder="Search events…" />
+            <select id="ev-cat" class="form-select form-select-sm" style="width:auto;" aria-label="Filter by category">
+              <option value="All">All Categories</option>
+              <option value="Hackathon">Hackathon</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Tech Club">Tech Club</option>
+              <option value="Cultural">Cultural</option>
+            </select>
+            <button id="create-event-btn" class="btn-universe btn-sm d-none" data-bs-toggle="modal" data-bs-target="#createEventModal">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i> Host Event
+            </button>
+          </div>
+        </div>
+
+        <ul class="nav nav-pills gap-2 mb-4" role="tablist">
+          <li class="nav-item"><button class="btn btn-sm btn-universe-ghost active" id="tab-all-ev" type="button">All Upcoming</button></li>
+          <li class="nav-item"><button class="btn btn-sm btn-universe-ghost" id="tab-my-ev" type="button">My Registered Events</button></li>
+        </ul>
+
+        <div id="events-grid" class="row g-4"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Event Modal (Teacher / Admin) -->
+  <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="create-event-form" class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 fw-bold" id="createEventModalLabel">Create Campus Event</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column gap-3">
+          <div>
+            <label for="ev-title" class="form-label small fw-semibold">Event Title</label>
+            <input id="ev-title" type="text" class="form-control" required />
+          </div>
+          <div>
+            <label for="ev-desc" class="form-label small fw-semibold">Description</label>
+            <textarea id="ev-desc" class="form-control" rows="3" required></textarea>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label for="ev-category" class="form-label small fw-semibold">Category</label>
+              <select id="ev-category" class="form-select">
+                <option value="Hackathon">Hackathon</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Tech Club">Tech Club</option>
+                <option value="Cultural">Cultural</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="ev-capacity" class="form-label small fw-semibold">Capacity</label>
+              <input id="ev-capacity" type="number" class="form-control" value="120" min="10" required />
+            </div>
+          </div>
+          <div>
+            <label for="ev-location" class="form-label small fw-semibold">Location</label>
+            <input id="ev-location" type="text" class="form-control" placeholder="Main Auditorium…" required />
+          </div>
+          <div>
+            <label for="ev-date" class="form-label small fw-semibold">Date &amp; Time</label>
+            <input id="ev-date" type="datetime-local" class="form-control" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn-universe">Publish Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/interactions.js"></script>
+  <script src="/js/smart-buddy.js"></script>
+  <script>
+    let showMyOnly = false;
+    let countdownTimer = null;
+
+    function formatCountdown(isoDate) {
+      const diff = new Date(isoDate).getTime() - Date.now();
+      if (diff <= 0) return 'Event Live / Completed';
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      return `${d}d ${h}h ${m}m left`;
+    }
+
+    async function loadEvents() {
+      const q = document.getElementById('ev-search').value.trim();
+      const category = document.getElementById('ev-cat').value;
+      const params = new URLSearchParams({ category, q });
+      const { events } = await UniVerseAPI.request(`/api/campus/events?${params.toString()}`);
+      const filtered = showMyOnly ? events.filter((e) => e.is_registered) : events;
+      const grid = document.getElementById('events-grid');
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="col-12"><div class="glass-card p-5 text-center text-secondary">No matching events found.</div></div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map((e) => `
+        <div class="col-md-6 col-xl-4">
+          <article class="glass-card overflow-hidden h-100 d-flex flex-column tilt-card">
+            <div class="p-4 text-white banner-${UniVerseAPI.escapeHtml(e.banner_theme || 'aurora')}">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge-pill" style="background:rgba(0,0,0,0.35);color:#fff;">${UniVerseAPI.escapeHtml(e.category)}</span>
+                <span class="small tabular-nums fw-semibold event-countdown" data-date="${UniVerseAPI.escapeHtml(e.event_date)}">${formatCountdown(e.event_date)}</span>
+              </div>
+              <h2 class="h5 fw-bold mb-0">${UniVerseAPI.escapeHtml(e.title)}</h2>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <p class="small text-secondary flex-grow-1">${UniVerseAPI.escapeHtml(e.description)}</p>
+              <div class="small text-secondary mb-3">
+                <div><i class="bi bi-geo-alt text-info" aria-hidden="true"></i> ${UniVerseAPI.escapeHtml(e.location)}</div>
+                <div><i class="bi bi-person-badge text-info" aria-hidden="true"></i> Host: ${UniVerseAPI.escapeHtml(e.organizer_name)}</div>
+                <div><i class="bi bi-people text-info" aria-hidden="true"></i> <span class="tabular-nums">${e.registered_count} / ${e.capacity}</span> registered</div>
+              </div>
+              <button type="button" class="btn ${e.is_registered ? 'btn-universe-ghost' : 'btn-universe'} w-100 reg-btn" data-id="${e.id}">
+                ${e.is_registered ? 'Registered ✓ (Cancel)' : 'Register Now (+25 XP)'}
+              </button>
+            </div>
+          </article>
+        </div>`).join('');
+
+      grid.querySelectorAll('.reg-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const res = await UniVerseAPI.request(`/api/campus/events/${btn.dataset.id}/register`, { method: 'POST' });
+          UniVerseAPI.showToast(res.registered ? 'Event registration confirmed!' : 'Registration cancelled.', res.registered ? 'success' : 'info');
+          UniVerseAPI.handleRewardToast(res.reward);
+          loadEvents();
+        });
+      });
+
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        document.querySelectorAll('.event-countdown').forEach((el) => {
+          el.textContent = formatCountdown(el.dataset.date);
+        });
+      }, 30000);
+    }
+
+    document.getElementById('tab-all-ev').addEventListener('click', (e) => {
+      showMyOnly = false;
+      e.target.classList.add('active');
+      document.getElementById('tab-my-ev').classList.remove('active');
+      loadEvents();
+    });
+
+    document.getElementById('tab-my-ev').addEventListener('click', (e) => {
+      showMyOnly = true;
+      e.target.classList.add('active');
+      document.getElementById('tab-all-ev').classList.remove('active');
+      loadEvents();
+    });
+
+    document.getElementById('create-event-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await UniVerseAPI.request('/api/campus/events', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: document.getElementById('ev-title').value,
+          description: document.getElementById('ev-desc').value,
+          category: document.getElementById('ev-category').value,
+          capacity: document.getElementById('ev-capacity').value,
+          location: document.getElementById('ev-location').value,
+          event_date: document.getElementById('ev-date').value
+        })
+      });
+      bootstrap.Modal.getInstance(document.getElementById('createEventModal')).hide();
+      UniVerseAPI.showToast('Event created!', 'success');
+      loadEvents();
+    });
+
+    document.getElementById('ev-search').addEventListener('input', loadEvents);
+    document.getElementById('ev-cat').addEventListener('change', loadEvents);
+
+    (async () => {
+      const user = await UniVerseApp.initShell({ requireAuth: true });
+      if (user) {
+        if (['teacher', 'admin'].includes(user.role)) {
+          document.getElementById('create-event-btn').classList.remove('d-none');
+        }
+        loadEvents();
+      }
+    })();
+  </script>
+</body>
+</html>

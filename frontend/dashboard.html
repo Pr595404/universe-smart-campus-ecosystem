@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a1312" />
+  <title>Dashboard — UniVerse</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="universe-ambient" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="app-sidebar"></aside>
+    <div class="app-main">
+      <header id="app-topbar" class="app-topbar"></header>
+      <main id="main-content" class="app-content">
+        <!-- Welcome Banner -->
+        <section class="glass-card dashboard-welcome p-4 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div>
+            <span class="badge-pill badge-cyan mb-2" id="dash-role-pill">Student Workspace</span>
+            <h1 class="h3 fw-bold mb-1 d-flex align-items-center gap-3"><span class="dashboard-avatar" id="dashboard-avatar" aria-hidden="true">UV</span><span id="dash-greeting">Welcome back&#8230;</span></h1>
+            <p class="text-secondary small mb-0" id="dash-subline">Loading your campus overview…</p>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="/campus-pulse.html" class="btn-universe btn-sm"><i class="bi bi-plus-lg" aria-hidden="true"></i> New Post</a>
+            <a href="/events.html" class="btn-universe-ghost btn-sm">Browse Events</a>
+            <a href="/studyhub.html" class="btn-universe-ghost btn-sm">StudyHub</a>
+            <a href="/campus-quest.html" class="btn-universe-ghost btn-sm">Campus Quest</a>
+          </div>
+        </section>
+
+        <!-- Stats Row -->
+        <section class="row g-3 mb-4">
+          <div class="col-6 col-xl-3">
+            <div class="glass-card p-3 tilt-card">
+              <div class="small text-secondary">Total Campus XP</div>
+              <div id="kpi-xp" class="h2 fw-bold tabular-nums text-info mb-0 mt-1">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="glass-card p-3 tilt-card">
+              <div class="small text-secondary">Earned Badges</div>
+              <div id="kpi-badges" class="h2 fw-bold tabular-nums text-warning mb-0 mt-1">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="glass-card p-3 tilt-card">
+              <div class="small text-secondary">Registered Events</div>
+              <div id="kpi-events" class="h2 fw-bold tabular-nums text-success mb-0 mt-1">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="glass-card p-3 tilt-card">
+              <div class="small text-secondary">Pulse Contributions</div>
+              <div id="kpi-posts" class="h2 fw-bold tabular-nums mb-0 mt-1">0</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="dashboard-achievement-section" class="glass-card p-4 mb-4 dashboard-achievements" hidden>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div><span class="badge-pill badge-accent mb-2">Milestones</span><h2 class="h5 fw-bold mb-0">Your achievements</h2></div>
+            <a href="/campus-quest.html" class="small text-info text-decoration-none">All achievements <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+          </div>
+          <div id="dashboard-achievements" class="row g-3"></div>
+        </section>
+        <div class="row g-4">
+          <!-- Left Column -->
+          <div class="col-lg-8 d-flex flex-column gap-4">
+            <!-- Activity Canvas Chart -->
+            <section class="glass-card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 fw-bold mb-0">Personal Activity Overview</h2>
+                <span class="badge-pill badge-accent">HTML5 Canvas</span>
+              </div>
+              <canvas id="dash-activity-chart" height="120" aria-label="Personal activity bar chart"></canvas>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section class="glass-card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 fw-bold mb-0">Upcoming Campus Events</h2>
+                <a href="/events.html" class="small text-info text-decoration-none">View all</a>
+              </div>
+              <div id="dash-events-list" class="row g-3"></div>
+            </section>
+
+            <!-- Recent Campus Pulse -->
+            <section class="glass-card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 fw-bold mb-0">Campus Pulse Highlights</h2>
+                <a href="/campus-pulse.html" class="small text-info text-decoration-none">Open Feed</a>
+              </div>
+              <div id="dash-pulse-list" class="d-flex flex-column gap-3"></div>
+            </section>
+          </div>
+
+          <!-- Right Column -->
+          <div class="col-lg-4 d-flex flex-column gap-4">
+            <!-- Pending Tasks -->
+            <section class="glass-card p-4">
+              <h2 class="h5 fw-bold mb-3">Pending Tasks</h2>
+              <form id="task-form" class="d-flex gap-2 mb-3">
+                <label for="task-input" class="visually-hidden">New task</label>
+                <input id="task-input" type="text" class="form-control form-control-sm" placeholder="Add a study task…" required />
+                <button type="submit" class="btn btn-sm btn-universe" aria-label="Add task"><i class="bi bi-plus-lg" aria-hidden="true"></i></button>
+              </form>
+              <div id="dash-tasks-list" class="d-flex flex-column gap-2"></div>
+            </section>
+
+            <!-- Announcements -->
+            <section class="glass-card p-4">
+              <h2 class="h5 fw-bold mb-3">Latest Announcements</h2>
+              <div id="dash-announcements-list" class="d-flex flex-column gap-3"></div>
+            </section>
+
+            <!-- StudyHub Quick Access -->
+            <section class="glass-card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 fw-bold mb-0">Recent StudyHub</h2>
+                <a href="/studyhub.html" class="small text-info text-decoration-none">Library</a>
+              </div>
+              <div id="dash-resources-list" class="d-flex flex-column gap-2"></div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/interactions.js"></script>
+  <script src="/js/smart-buddy.js"></script>
+  <script>
+    function getGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Good Morning';
+      if (h < 17) return 'Good Afternoon';
+      return 'Good Evening';
+    }
+
+    function drawActivityChart(stats) {
+      const canvas = document.getElementById('dash-activity-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.parentElement.clientWidth - 48;
+      const h = 150;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.scale(dpr, dpr);
+
+      const items = [
+        { label: 'XP (/10)', val: Math.round(stats.xp / 10), color: '#71977a' },
+        { label: 'Badges', val: stats.badges * 8, color: '#c9aa71' },
+        { label: 'Events', val: stats.registeredEvents * 10, color: '#69a478' },
+        { label: 'Posts', val: stats.postsCreated * 10, color: '#9aaf83' }
+      ];
+      const maxVal = Math.max(...items.map((i) => i.val), 20);
+      const barW = Math.min(64, (w - 80) / items.length);
+      const gap = (w - barW * items.length) / (items.length + 1);
+
+      items.forEach((item, idx) => {
+        const barH = Math.max(8, (item.val / maxVal) * (h - 48));
+        const x = gap + idx * (barW + gap);
+        const y = h - 26 - barH;
+        ctx.fillStyle = item.color;
+        ctx.beginPath();
+        ctx.roundRect(x, y, barW, barH, 8);
+        ctx.fill();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px Plus Jakarta Sans, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(item.label, x + barW / 2, h - 8);
+      });
+    }
+
+    async function loadDashboard() {
+      const user = await UniVerseApp.initShell({ requireAuth: true });
+      if (!user) return;
+
+      document.getElementById('dash-greeting').textContent = `${getGreeting()}, ${user.name}!`;
+      document.getElementById('dash-subline').textContent = `${user.department} · ${user.semester} · ${user.email}`;
+      document.getElementById('dash-role-pill').textContent = `${user.role.toUpperCase()} WORKSPACE`;
+      const initials = user.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+      const avatar = document.getElementById('dashboard-avatar');
+      if (avatar) {
+        avatar.textContent = initials;
+        avatar.style.backgroundColor = user.avatar_color || 'var(--accent-indigo)';
+      }
+
+      const data = await UniVerseAPI.request('/api/community/dashboard');
+      UniVerseInteractions.animateCounter(document.getElementById('kpi-xp'), data.stats.xp);
+      UniVerseInteractions.animateCounter(document.getElementById('kpi-badges'), data.stats.badges);
+      UniVerseInteractions.animateCounter(document.getElementById('kpi-events'), data.stats.registeredEvents);
+      UniVerseInteractions.animateCounter(document.getElementById('kpi-posts'), data.stats.postsCreated);
+      drawActivityChart(data.stats);
+      try {
+        const { badges } = await UniVerseAPI.request('/api/campus/quests');
+        const earned = badges.filter((badge) => badge.earned).slice(-3).reverse();
+        if (earned.length) {
+          document.getElementById('dashboard-achievements').innerHTML = earned.map((badge) => `
+            <div class="col-sm-6 col-lg-4"><article class="achievement-tile h-100 p-3 rounded-3">
+              <span class="achievement-seal"><i class="bi bi-award" aria-hidden="true"></i></span>
+              <div class="fw-semibold mt-3">${UniVerseAPI.escapeHtml(badge.name)}</div>
+              <p class="text-secondary small mb-0 mt-1">${UniVerseAPI.escapeHtml(badge.description)}</p>
+            </article></div>`).join('');
+          document.getElementById('dashboard-achievement-section').hidden = false;
+        }
+      } catch {
+        // Achievement highlights stay optional; core dashboard data remains available.
+      }
+
+      document.getElementById('dash-events-list').innerHTML = data.upcomingEvents.length
+        ? data.upcomingEvents.map((e) => `
+          <div class="col-md-6">
+            <div class="p-3 rounded-3 h-100" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="badge-pill badge-cyan">${UniVerseAPI.escapeHtml(e.category)}</span>
+                <span class="small text-secondary tabular-nums">${e.registered_count}/${e.capacity}</span>
+              </div>
+              <div class="fw-bold small">${UniVerseAPI.escapeHtml(e.title)}</div>
+              <div class="text-secondary mt-1" style="font-size:0.78rem;">${UniVerseAPI.escapeHtml(e.location)}</div>
+            </div>
+          </div>`).join('')
+        : '<p class="text-secondary small mb-0">No upcoming events.</p>';
+
+      document.getElementById('dash-pulse-list').innerHTML = data.recentPosts.length
+        ? data.recentPosts.map((p) => `
+          <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong class="small">${UniVerseAPI.escapeHtml(p.author_name)}</strong>
+              <span class="badge-pill badge-accent">${UniVerseAPI.escapeHtml(p.category)}</span>
+            </div>
+            <p class="small text-secondary mb-1">${UniVerseAPI.escapeHtml(p.content)}</p>
+            <div class="text-secondary" style="font-size:0.75rem;">${p.likes_count} likes · ${p.comments_count} comments</div>
+          </div>`).join('')
+        : '<p class="text-secondary small mb-0">No recent posts.</p>';
+
+      renderTasks(data.tasks);
+
+      document.getElementById('dash-announcements-list').innerHTML = data.announcements.length
+        ? data.announcements.map((a) => `
+          <div class="p-3 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="fw-semibold small">${UniVerseAPI.escapeHtml(a.title)}</span>
+              ${a.priority === 'high' ? '<span class="badge-pill badge-demo">Priority</span>' : ''}
+            </div>
+            <p class="small text-secondary mb-1">${UniVerseAPI.escapeHtml(a.content)}</p>
+            <div style="font-size:0.72rem;" class="text-muted">By ${UniVerseAPI.escapeHtml(a.author_name)}</div>
+          </div>`).join('')
+        : '<p class="text-secondary small mb-0">No announcements.</p>';
+
+      document.getElementById('dash-resources-list').innerHTML = data.recentResources.length
+        ? data.recentResources.map((r) => `
+          <a href="/studyhub.html" class="p-2 rounded-3 text-decoration-none text-reset d-block" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+            <div class="fw-semibold small text-truncate">${UniVerseAPI.escapeHtml(r.title)}</div>
+            <div class="text-secondary" style="font-size:0.74rem;">${UniVerseAPI.escapeHtml(r.subject)} · ${UniVerseAPI.escapeHtml(r.semester)}</div>
+          </a>`).join('')
+        : '<p class="text-secondary small mb-0">No resources yet.</p>';
+    }
+
+    function renderTasks(tasks) {
+      const list = document.getElementById('dash-tasks-list');
+      if (!tasks.length) {
+        list.innerHTML = '<p class="text-secondary small mb-0">All caught up! Add a task above.</p>';
+        return;
+      }
+      list.innerHTML = tasks.map((t) => `
+        <div class="d-flex align-items-center justify-content-between gap-2 p-2 rounded-3" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);">
+          <label class="d-flex align-items-center gap-2 small mb-0 flex-grow-1" style="cursor:pointer;">
+            <input type="checkbox" class="form-check-input mt-0 task-toggle" data-id="${t.id}" ${t.completed ? 'checked' : ''} />
+            <span class="${t.completed ? 'text-decoration-line-through text-secondary' : ''}">${UniVerseAPI.escapeHtml(t.title)}</span>
+          </label>
+          <button type="button" class="btn btn-sm btn-link text-danger p-0 task-del" data-id="${t.id}" aria-label="Delete task">
+            <i class="bi bi-trash" aria-hidden="true"></i>
+          </button>
+        </div>`).join('');
+
+      list.querySelectorAll('.task-toggle').forEach((cb) => {
+        cb.addEventListener('change', async () => {
+          await UniVerseAPI.request(`/api/community/tasks/${cb.dataset.id}/toggle`, { method: 'PATCH' });
+          loadDashboard();
+        });
+      });
+      list.querySelectorAll('.task-del').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          await UniVerseAPI.request(`/api/community/tasks/${btn.dataset.id}`, { method: 'DELETE' });
+          loadDashboard();
+        });
+      });
+    }
+
+    document.getElementById('task-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('task-input');
+      if (!input.value.trim()) return;
+      await UniVerseAPI.request('/api/community/tasks', {
+        method: 'POST',
+        body: JSON.stringify({ title: input.value.trim() })
+      });
+      input.value = '';
+      UniVerseAPI.showToast('Task added.', 'success');
+      loadDashboard();
+    });
+
+    loadDashboard();
+  </script>
+</body>
+</html>

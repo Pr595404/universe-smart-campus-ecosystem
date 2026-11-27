@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a1312" />
+  <title>Lost &amp; Found — UniVerse</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="universe-ambient" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="app-sidebar"></aside>
+    <div class="app-main">
+      <header id="app-topbar" class="app-topbar"></header>
+      <main id="main-content" class="app-content">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div>
+            <h1 class="h3 fw-bold mb-1">Lost &amp; Found Portal</h1>
+            <p class="text-secondary small mb-0">Report missing or found campus items with protected owner contact.</p>
+          </div>
+          <button class="btn-universe btn-sm" data-bs-toggle="modal" data-bs-target="#lfModal">
+            <i class="bi bi-plus-lg" aria-hidden="true"></i> Report Item
+          </button>
+        </div>
+
+        <div class="glass-card p-3 mb-4 d-flex flex-wrap gap-2">
+          <input id="lf-search" type="search" class="form-control form-control-sm" style="max-width:250px;" placeholder="Search items or location…" aria-label="Search lost and found" />
+          <select id="lf-type" class="form-select form-select-sm" style="width:auto;" aria-label="Filter by type">
+            <option value="all">Lost &amp; Found</option>
+            <option value="lost">Lost Only</option>
+            <option value="found">Found Only</option>
+          </select>
+          <select id="lf-status" class="form-select form-select-sm" style="width:auto;" aria-label="Filter by status">
+            <option value="all">All Statuses</option>
+            <option value="open">Open</option>
+            <option value="recovered">Recovered</option>
+          </select>
+        </div>
+
+        <div id="lf-grid" class="row g-4"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Report Item Modal -->
+  <div class="modal fade" id="lfModal" tabindex="-1" aria-labelledby="lfModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="lf-form" class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 fw-bold" id="lfModalLabel">Report Lost or Found Item</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column gap-3">
+          <div class="row g-2">
+            <div class="col-6">
+              <label for="lf-form-type" class="form-label small fw-semibold">Report Type</label>
+              <select id="lf-form-type" class="form-select">
+                <option value="lost">Lost Item</option>
+                <option value="found">Found Item</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="lf-form-cat" class="form-label small fw-semibold">Category</label>
+              <select id="lf-form-cat" class="form-select">
+                <option value="Electronics">Electronics</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Books">Books &amp; ID</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="lf-form-name" class="form-label small fw-semibold">Item Name</label>
+            <input id="lf-form-name" type="text" class="form-control" required />
+          </div>
+          <div>
+            <label for="lf-form-desc" class="form-label small fw-semibold">Description</label>
+            <textarea id="lf-form-desc" class="form-control" rows="2" required></textarea>
+          </div>
+          <div class="row g-2">
+            <div class="col-7">
+              <label for="lf-form-loc" class="form-label small fw-semibold">Location</label>
+              <input id="lf-form-loc" type="text" class="form-control" placeholder="Central Library…" required />
+            </div>
+            <div class="col-5">
+              <label for="lf-form-date" class="form-label small fw-semibold">Date</label>
+              <input id="lf-form-date" type="date" class="form-control" required />
+            </div>
+          </div>
+          <div>
+            <label for="lf-form-img" class="form-label small fw-semibold">Photo (optional)</label>
+            <input id="lf-form-img" type="file" accept="image/*" class="form-control" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn-universe">Submit Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/interactions.js"></script>
+  <script src="/js/smart-buddy.js"></script>
+  <script>
+    let currentUser = null;
+
+    async function loadLostFound() {
+      const q = document.getElementById('lf-search').value.trim();
+      const type = document.getElementById('lf-type').value;
+      const status = document.getElementById('lf-status').value;
+      const params = new URLSearchParams({ q, type, status });
+      const { items } = await UniVerseAPI.request(`/api/campus/lost-found?${params.toString()}`);
+      const grid = document.getElementById('lf-grid');
+
+      if (!items.length) {
+        grid.innerHTML = '<div class="col-12"><div class="glass-card p-5 text-center text-secondary">No matching listings found.</div></div>';
+        return;
+      }
+
+      grid.innerHTML = items.map((item) => {
+        const canRecover = currentUser && item.status === 'open' && (currentUser.id === item.user_id || currentUser.role === 'admin');
+        return `
+          <div class="col-md-6 col-xl-4">
+            <article class="glass-card p-4 h-100 d-flex flex-column tilt-card">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge-pill ${item.type === 'lost' ? 'badge-demo' : 'badge-cyan'} text-uppercase">${UniVerseAPI.escapeHtml(item.type)}</span>
+                <span class="badge-pill ${item.status === 'recovered' ? 'badge-emerald' : 'badge-accent'} text-capitalize">${UniVerseAPI.escapeHtml(item.status)}</span>
+              </div>
+              ${item.image_url ? `<img src="${UniVerseAPI.escapeHtml(item.image_url)}" alt="${UniVerseAPI.escapeHtml(item.item_name)}" class="rounded-3 mb-3 w-100" width="400" height="200" style="height:170px;object-fit:cover;" loading="lazy" />` : ''}
+              <h2 class="h6 fw-bold mb-1">${UniVerseAPI.escapeHtml(item.item_name)}</h2>
+              <p class="small text-secondary flex-grow-1">${UniVerseAPI.escapeHtml(item.description)}</p>
+              <div class="small text-muted mb-3">
+                <div><i class="bi bi-geo-alt text-info" aria-hidden="true"></i> ${UniVerseAPI.escapeHtml(item.location)} · ${UniVerseAPI.escapeHtml(item.item_date)}</div>
+                <div>Posted by ${UniVerseAPI.escapeHtml(item.reporter_name)}</div>
+              </div>
+              <div class="d-flex gap-2">
+                ${currentUser && currentUser.id !== item.user_id ? `<button type="button" class="btn-universe btn-sm flex-grow-1 contact-btn" data-uid="${item.user_id}" data-id="${item.id}">Protected Contact</button>` : ''}
+                ${canRecover ? `<button type="button" class="btn-universe-ghost btn-sm flex-grow-1 recover-btn" data-id="${item.id}">Mark Recovered</button>` : ''}
+              </div>
+            </article>
+          </div>`;
+      }).join('');
+
+      grid.querySelectorAll('.contact-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const msg = prompt('Send a protected message (your email/phone stays hidden):');
+          if (!msg) return;
+          await UniVerseAPI.request('/api/campus/messages', {
+            method: 'POST',
+            body: JSON.stringify({ receiver_id: btn.dataset.uid, context_type: 'lost_found', context_id: btn.dataset.id, message: msg })
+          });
+          UniVerseAPI.showToast('Protected message sent!', 'success');
+        });
+      });
+
+      grid.querySelectorAll('.recover-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          await UniVerseAPI.request(`/api/campus/lost-found/${btn.dataset.id}/recover`, { method: 'PATCH' });
+          UniVerseAPI.showToast('Marked as recovered!', 'success');
+          loadLostFound();
+        });
+      });
+    }
+
+    document.getElementById('lf-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData();
+      fd.append('type', document.getElementById('lf-form-type').value);
+      fd.append('category', document.getElementById('lf-form-cat').value);
+      fd.append('item_name', document.getElementById('lf-form-name').value.trim());
+      fd.append('description', document.getElementById('lf-form-desc').value.trim());
+      fd.append('location', document.getElementById('lf-form-loc').value.trim());
+      fd.append('item_date', document.getElementById('lf-form-date').value);
+      const img = document.getElementById('lf-form-img').files[0];
+      if (img) fd.append('image', img);
+
+      await UniVerseAPI.request('/api/campus/lost-found', { method: 'POST', body: fd });
+      bootstrap.Modal.getInstance(document.getElementById('lfModal')).hide();
+      e.target.reset();
+      UniVerseAPI.showToast('Listing submitted!', 'success');
+      loadLostFound();
+    });
+
+    document.getElementById('lf-search').addEventListener('input', loadLostFound);
+    document.getElementById('lf-type').addEventListener('change', loadLostFound);
+    document.getElementById('lf-status').addEventListener('change', loadLostFound);
+
+    (async () => {
+      currentUser = await UniVerseApp.initShell({ requireAuth: true });
+      if (currentUser) loadLostFound();
+    })();
+  </script>
+</body>
+</html>
